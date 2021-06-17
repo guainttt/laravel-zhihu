@@ -85,13 +85,13 @@ class RegisterController extends Controller
         //模板地址
         //https://www.sendcloud.net/email/#/sendAround/template
         $data = [
-          'url'=>route('email.verify',['token'=>$user->activation_token]),
-          'name'=>$user->name
+          'url'=>route('email.verify',['token'=>$user->activation_token])
+          
         ];
         //test_template 邮件模板
         $template = new SendCloudTemplate('test_template_active',$data);
         Mail::raw($template,function ($message) use ($user){
-            $message->from('apobobo@GxAfk630IZU4ypaS6vkjBUIvNPP7SdYv.sendcloud.org','知乎管理员');
+            $message->from(env('SEND_CLOUD_FROM'),'知乎管理员');
             $message->to($user->email);
         });
     }
