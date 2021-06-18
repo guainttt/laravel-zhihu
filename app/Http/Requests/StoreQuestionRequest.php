@@ -13,7 +13,9 @@ class StoreQuestionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        //是否需要验证
+        //return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,18 @@ class StoreQuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+          'title'  =>'required|min:6|max:196',
+          'body'   =>'required|min:20',
+    
+        ];
+        
+    }
+    
+    public function messages()
+    {
+        return [
+          'body.required'=>'内容不得为空' ,
+          'body.min'=>'内容不得少于20个字符' ,
         ];
     }
 }

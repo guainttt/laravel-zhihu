@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuestionRequest;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,19 +37,20 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    //public function store(Request $request)
+    public function store(StoreQuestionRequest $request)
     {
-        $rules = [
+        /*$rules = [
            'title'  =>'required|min:6|max:196',
            'body'   =>'required|min:20',
            
-        ];
-        $message = [
+        ];*/
+        /*$message = [
             'body.required'=>'内容不得为空' ,
             'body.min'=>'内容不得少于20个字符' ,
-        ];
+        ];*/
         //自动过滤掉token值
-        $this->validate($request,$rules,$message);
+        //$this->validate($request,$rules,$message);
         $data = $request->all();
         $save = [
             'title'     =>$data['title'],
@@ -57,7 +59,6 @@ class QuestionsController extends Controller
         ];
         $rs = Question::create($save);
         return redirect()->route('question.show',[$rs->id]);
-        
     }
 
     /**
