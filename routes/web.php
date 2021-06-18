@@ -26,3 +26,9 @@ Route::get('/email/verify/{token}',[
   'uses'=>'EmailController@verify'
 ]);
 
+Route::resource('questions','QuestionsController',[
+  'names'=>[
+      'create'  =>'question.create',
+      'show'    =>'question.show'
+  ]
+]);
