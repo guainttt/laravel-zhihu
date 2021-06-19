@@ -33,10 +33,12 @@
                                 @endif
 
                             </div>
+                            <label for="container"><h5>描述 </h5> </label>
                             <!--text/plain的意思是将文件设置为纯文本的形式，浏览器在获取到这种文件时并不会对其进行处理-->
                             <!-- 转义 {{ old('body') }} -->
                             <!-- 非转义 {!! old('body') !!} -->
-                            <script id="container" name="body" type="text/plain" >
+
+                            <script id="container" name="body" type="text/plain" style="height: 200px;" >
                                 {!! old('body') !!}
                             </script>
                             <button class="btn btn-success pull-right" type="submit">发布问题</button>
@@ -50,7 +52,18 @@
 
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
-    var ue = UE.getEditor('container');
+    var ue = UE.getEditor('container', {
+        toolbars: [
+            ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen']
+        ],
+        elementPathEnabled: false,
+        enableContextMenu: false,
+        autoClearEmptyNode:true,
+        wordCount:false,
+        imagePopup:false,
+        autotypeset:{ indent: true,imageBlockLine: 'center' }
+    });
+    
     ue.ready(function() {
         ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
     });

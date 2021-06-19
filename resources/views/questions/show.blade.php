@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">{{ $question->title }}</div>
 
-                    <div class="card-body">
+                    <div class="card-body card-img">
                        {!! $question->body !!}
 
                     </div>
@@ -15,4 +15,11 @@
             </div>
         </div>
     </div>
+
 @endsection
+<style>
+    .card-img p img {
+        max-width: 100%  !important;
+    }
+</style>
+

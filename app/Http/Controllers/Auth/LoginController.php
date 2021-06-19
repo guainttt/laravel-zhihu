@@ -58,7 +58,7 @@ class LoginController extends Controller
         if ($this->attemptLogin($request)) {
             //flash('欢迎回来','success');
             //flash('欢迎回来')->important();
-           //flash('欢迎回来')->success();
+            //flash('欢迎回来')->success();
             flash('欢迎回来')->overlay();
             return $this->sendLoginResponse($request);
         }
