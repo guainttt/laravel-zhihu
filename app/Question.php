@@ -13,4 +13,12 @@ class Question extends Model
     {
         return $this->is_hidden === 'T';
     }
+    
+    public function topics()
+    {
+        //多对多的关系
+        //belongsToMany如果第二个参数不是question_topic的话 可以通过第二个参数传递自定义表名
+        return $this->belongsToMany(Topic::class,'question_topic')
+          ->withTimestamps();
+    }
 }

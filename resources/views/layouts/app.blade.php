@@ -81,10 +81,10 @@
         </main>
     </div>
 </body>
+<script src="./../js/app.js"></script>
 
+@yield('my-js')
 
-<script src="//code.jquery.com/jquery.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script>
     $(function () {
         $('#flash-overlay-modal').modal();

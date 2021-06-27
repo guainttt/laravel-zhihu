@@ -12,4 +12,12 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+//1. 打包在 .resources/js/app.js 的所有js(包括任何依赖)到 public/js。
+   .sass('resources/sass/app.scss', 'public/css')
+//2. 编译sass文件, resources/sass/app.scss 到 ./dist/app.css
+   .version();
+
+
+
+
+
