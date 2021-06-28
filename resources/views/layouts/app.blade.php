@@ -81,12 +81,12 @@
         </main>
     </div>
 </body>
-<script src="./../js/app.js"></script>
 
 @yield('my-js')
 
 <script>
     $(function () {
+        //弹出欢迎对话框
         $('#flash-overlay-modal').modal();
     });
 </script>
