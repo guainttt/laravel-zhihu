@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
 use App\Question;
+use App\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,6 +57,8 @@ class QuestionsController extends Controller
         ];*/
         //自动过滤掉token值
         //$this->validate($request,$rules,$message);
+        
+        $topics = $this->normailizeTopic($request->get('topics'));
         $data = $request->all();
         $save = [
             'title'     =>$data['title'],
@@ -63,6 +66,9 @@ class QuestionsController extends Controller
             'user_id'   =>Auth::id()
         ];
         $rs = Question::create($save);
+    
+        $rs->topics()->attach($topics);
+        
         return redirect()->route('question.show',[$rs->id]);
     }
 
@@ -75,7 +81,8 @@ class QuestionsController extends Controller
     public function show($id)
     {
         //
-        $question = Question::find($id);
+        //$question = Question::find($id);
+        $question = Question::where('id',$id)->with('topics')->first();
         return view('questions.show',compact('question'));
     }
 
@@ -111,5 +118,18 @@ class QuestionsController extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    private function normailizeTopic(array $topics)
+    {
+        //collect 遍历方法
+        return collect($topics)->map(function ($topic){
+            if(is_numeric($topic)){
+               Topic::find($topic)->increment('questions_count');
+               return (int)$topic;
+            }
+            $newTopic = Topic::create(['name'=>$topic,'questions_count'=>1]);
+            return $newTopic->id;
+        })->toArray();
     }
 }

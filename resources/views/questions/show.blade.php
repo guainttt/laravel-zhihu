@@ -6,7 +6,9 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ $question->title }}</div>
-
+                    @foreach($question->topics as $topic)
+                        <span class="topic">{{$topic->name}}</span>
+                    @endforeach
                     <div class="card-body card-img">
                        {!! $question->body !!}
 

@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="topic"><h5>话题</h5></label>
-                                <select  class="js-example-basic-multiple js-example-data-ajax form-control" name="topic[]" multiple="multiple">
+                                <select  class="js-example-basic-multiple js-example-data-ajax form-control" name="topics[]" multiple="multiple">
 
                                 </select>
                             </div>
