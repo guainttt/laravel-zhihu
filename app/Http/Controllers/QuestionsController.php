@@ -3,16 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
-use App\Question;
-use App\Topic;
+//use App\Question;
+//use App\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Repositories\QuestionRepository;
+
+
+
+
+
 class QuestionsController extends Controller
 {
-    public function __construct()
+    protected  $questionRepository;
+    
+    /**
+     * 依赖注入
+     * QuestionsController constructor.
+     * @param \App\Repositories\QuestionRepository $questionRepository
+     */
+    public function __construct(QuestionRepository $questionRepository)
     {
         $this->middleware('auth')->except(['index','show']);
+        $this->questionRepository = $questionRepository;
     }
     
     /**
@@ -58,14 +72,15 @@ class QuestionsController extends Controller
         //自动过滤掉token值
         //$this->validate($request,$rules,$message);
         
-        $topics = $this->normailizeTopic($request->get('topics'));
+        $topics = $this->questionRepository->normailizeTopic($request->get('topics'));
         $data = $request->all();
         $save = [
             'title'     =>$data['title'],
             'body'      =>$data['body'],
             'user_id'   =>Auth::id()
         ];
-        $rs = Question::create($save);
+        //$rs = Question::create($save);
+        $rs = $this->questionRepository->create($save);
     
         $rs->topics()->attach($topics);
         
@@ -80,9 +95,8 @@ class QuestionsController extends Controller
      */
     public function show($id)
     {
-        //
-        //$question = Question::find($id);
-        $question = Question::where('id',$id)->with('topics')->first();
+        //$question = Question::where('id',$id)->with('topics')->first();
+        $question =  $this->questionRepository->byIdWithTopics($id);
         return view('questions.show',compact('question'));
     }
 
@@ -120,16 +134,5 @@ class QuestionsController extends Controller
         //
     }
     
-    private function normailizeTopic(array $topics)
-    {
-        //collect 遍历方法
-        return collect($topics)->map(function ($topic){
-            if(is_numeric($topic)){
-               Topic::find($topic)->increment('questions_count');
-               return (int)$topic;
-            }
-            $newTopic = Topic::create(['name'=>$topic,'questions_count'=>1]);
-            return $newTopic->id;
-        })->toArray();
-    }
+
 }
