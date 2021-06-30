@@ -61,17 +61,9 @@
 
 
     @section('my-js')
-    <script src="./../js/app.js"></script>
-    <link href="./../css/app.css" rel="stylesheet" />
-    {{--         jquery不兼容select2 但是app.js可以 vue太奇怪了
-    <script src="./../js/jquery.min.js"></script>
-    --}}
-    {{--<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />--}}
-    {{--<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>--}}
-    <link href="./../css/select2.min.css" rel="stylesheet" />
-    <script src="./../js/select2.min.js"></script>
+
+
     <script type="text/javascript">
-    let $ = jQuery;
     $(function(){
         $(".js-example-data-ajax").select2({
             tags: true,
@@ -123,25 +115,26 @@
         }
     });
     </script>
+
+
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        //编辑器
+        var ue = UE.getEditor('container', {
+            toolbars: [
+                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen']
+            ],
+            elementPathEnabled: false,
+            enableContextMenu: false,
+            autoClearEmptyNode:true,
+            wordCount:false,
+            imagePopup:false,
+            autotypeset:{ indent: true,imageBlockLine: 'center' }
+        });
+
+        ue.ready(function() {
+            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
+        });
+    </script>
     @endsection
-
-<!-- 实例化编辑器 -->
-<script type="text/javascript">
-    //编辑器
-    var ue = UE.getEditor('container', {
-        toolbars: [
-            ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen']
-        ],
-        elementPathEnabled: false,
-        enableContextMenu: false,
-        autoClearEmptyNode:true,
-        wordCount:false,
-        imagePopup:false,
-        autotypeset:{ indent: true,imageBlockLine: 'center' }
-    });
-
-    ue.ready(function() {
-        ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
-    });
-</script>
 @endsection
