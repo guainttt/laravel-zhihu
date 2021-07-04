@@ -25,7 +25,8 @@ Route::get('/email/verify/{token}',[
   'as'=>'email.verify',
   'uses'=>'EmailController@verify'
 ]);
-
+//首页重定义
+Route::get('/','QuestionsController@index');
 Route::resource('questions','QuestionsController',[
   'names'=>[
       'create'  =>'question.create',

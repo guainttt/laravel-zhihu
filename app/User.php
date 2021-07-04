@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,7 +42,7 @@ class User extends Authenticatable
     ];
     
     /**
-     * 覆盖Notifiable里的代码
+     * 覆盖Notifiable里的代码  （忘记密码验证）
      * @param string $token
      */
     public function sendPasswordResetNotification($token)
@@ -57,5 +58,10 @@ class User extends Authenticatable
             $message->from(env('SEND_CLOUD_FROM'),'知乎管理员');
             $message->to($this->email);
         });
+    }
+    
+    public function owns(Model $model)
+    {
+        return $this->id == $model->user_id;
     }
 }

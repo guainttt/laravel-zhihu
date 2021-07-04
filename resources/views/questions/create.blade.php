@@ -36,8 +36,15 @@
                             <div class="form-group">
                                 <label for="topic"><h5>话题</h5></label>
                                 <select  class="js-example-basic-multiple js-example-data-ajax form-control" name="topics[]" multiple="multiple">
-
+                                   {{-- @if(old('topics'))
+                                    @foreach (old('topics') as $k=>$topic)
+                                        <option value="{{$k}}" selected="selected">
+                                            {{ $topic }}
+                                        </option>
+                                    @endforeach
+                                    @endif--}}
                                 </select>
+
                             </div>
                             <div class="form-group">
                                 <label for="container"><h5>描述 </h5> </label>

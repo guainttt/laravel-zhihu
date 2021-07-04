@@ -27,7 +27,13 @@ class QuestionRepository
         return Question::create($attributes);
     }
     
-    public function normailizeTopic(array $topics)
+    /**
+     * @param array $topics
+     *
+     * @return array
+     *              
+     */
+    public function normalizeTopic(array $topics)
     {
         //collect 遍历方法
         return collect($topics)->map(function ($topic){
@@ -38,5 +44,38 @@ class QuestionRepository
             $newTopic = Topic::create(['name'=>$topic,'questions_count'=>1]);
             return $newTopic->id;
         })->toArray();
+    }
+    
+    
+    public function normalize2Topic(array $topics)
+    {
+        //collect 遍历方法
+        return collect($topics)->map(function ($topic){
+            if($topic['questions_count']>1){
+                //dd($topic['questions_count']);
+                $topic = Topic::find($topic['id']);
+                $topic->decrement('questions_count');
+                return $topic['id'];
+            }
+            Topic::destroy($topic);
+            return $topic['id'];
+        });
+    }
+    
+    public function byId($id)
+    {
+        return Question::find($id);
+        
+    }
+    
+    /**
+     * 问题列表
+     */
+    public function getQuestionsFeed()
+    {
+       return Question::published()
+         ->latest('updated_at')
+         ->with('user')
+         ->get();
     }
 }
