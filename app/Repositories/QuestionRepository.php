@@ -37,12 +37,22 @@ class QuestionRepository
     {
         //collect 遍历方法
         return collect($topics)->map(function ($topic){
+            //如果是数字
             if(is_numeric($topic)){
                 Topic::find($topic)->increment('questions_count');
                 return (int)$topic;
+            }else{
+                 $oldTopic = Topic::where('name','=',$topic)->first();
+                 if ($oldTopic){
+                     //查得到
+                     Topic::find($oldTopic->id)->increment('questions_count');
+                     return (int)$oldTopic->id;
+                 }else{
+                     //查不到
+                     $newTopic = Topic::create(['name'=>$topic,'questions_count'=>1]);
+                     return $newTopic->id;
+                 }
             }
-            $newTopic = Topic::create(['name'=>$topic,'questions_count'=>1]);
-            return $newTopic->id;
         })->toArray();
     }
     
@@ -66,6 +76,27 @@ class QuestionRepository
     {
         return Question::find($id);
         
+    }
+    
+    public function getOldTopicList($oldTopics)
+    {
+        if($oldTopics){
+            foreach ( $oldTopics as $v){
+                if(is_numeric($v)){
+                    $topics[] = $v;
+                }else{
+                    $oldTopicsList[$v]= $v ;
+                }
+            }
+            if (isset($topics)){
+                $oldTopicsList = array_merge(Topic::find($topics)->pluck('name','id')->toArray(),$oldTopicsList);
+            }
+            
+            
+        } else{
+            $oldTopicsList = [];
+        }
+        return $oldTopicsList;
     }
     
     /**

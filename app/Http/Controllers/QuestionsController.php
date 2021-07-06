@@ -48,7 +48,12 @@ class QuestionsController extends Controller
     public function create()
     {
         //
-        return view('questions.create');
+    
+        $oldTopicList = $this->questionRepository->getOldTopicList(old('topics'));
+        
+        
+        
+        return view('questions.create',compact('oldTopicList'));
     }
 
     /**

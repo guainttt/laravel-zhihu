@@ -14,7 +14,8 @@ mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
 //2. 编译sass文件, resources/sass/app.scss 到 public/css
    .styles([
-        'resources/css/select2.min.css',
+        //'resources/css/select2.min.css',
+       'resources/css/select2.css',
         'resources/css/style.css'], 'public/css/all.css')
 //3. 合并原生css文件
 

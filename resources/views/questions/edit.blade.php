@@ -35,7 +35,7 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="topic"><h5>话题</h5></label>
+                            <label for="topic"><h5>话题</h5></label>/
                             <select  class="js-example-basic-multiple js-example-data-ajax form-control" name="topics[]" multiple="multiple">
                                 @foreach($question->topics as $topic)
                                     <option value="{{$topic->id}}" selected="selected">

@@ -36,15 +36,34 @@
                             <div class="form-group">
                                 <label for="topic"><h5>话题</h5></label>
                                 <select  class="js-example-basic-multiple js-example-data-ajax form-control" name="topics[]" multiple="multiple">
-                                   {{-- @if(old('topics'))
-                                    @foreach (old('topics') as $k=>$topic)
-                                        <option value="{{$k}}" selected="selected">
+
+                                    @foreach ($oldTopicList as $k=>$topic)
+                                        <option value="{{is_numeric($k)?:$topic}}" selected="selected">
                                             {{ $topic }}
                                         </option>
                                     @endforeach
-                                    @endif--}}
+                                   
                                 </select>
 
+
+
+                                {{--<select name="topics[]"   class="js-example-basic-multiple js-example-data-ajax form-control" multiple>
+                                    @foreach($settings->includes->get('topics') as $option)
+                                        <option value="{{ $option->id }}" {{ (collect(old('topics'))->contains($option->id)) ? 'selected':'' }}>{{ $option->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                <select id="forWhom" name="topics[]" multiple class="form-control chosen">
+                                    <option value="">--- Select ---</option>
+                                    @foreach ($desgInfo as $key => $value)
+                                        <option value="{{ $key }}"
+                                                {{ (collect(old('forWhom'))->contains($key)) ? 'selected':'' }}  />
+                                        {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>--}}
+
+                                
                             </div>
                             <div class="form-group">
                                 <label for="container"><h5>描述 </h5> </label>
@@ -71,6 +90,10 @@
 
 
     <script type="text/javascript">
+
+                                        
+
+
     $(function(){
         $(".js-example-data-ajax").select2({
             tags: true,
@@ -105,6 +128,9 @@
             templateResult: formatRepo,
             templateSelection: formatRepoSelection
         });
+
+
+        
         function formatRepo (repo) {
             if (repo.loading) {
                 return repo.text;
@@ -142,6 +168,7 @@
         ue.ready(function() {
             ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
         });
+
     </script>
     @endsection
 @endsection
