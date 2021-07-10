@@ -101,7 +101,7 @@ class QuestionsController extends Controller
     public function show($id)
     {
         //$question = Question::where('id',$id)->with('topics')->first();
-        $question =  $this->questionRepository->byIdWithTopics($id);
+        $question =  $this->questionRepository->byIdWithTopicsAndAnswers($id);
         if(!$question){
             abort('404','你可能来到了没有知识的荒漠');
         }

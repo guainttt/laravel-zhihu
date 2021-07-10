@@ -15,4 +15,8 @@ class Topic extends Model
           ->withTimestamps();
     }
     
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
 }

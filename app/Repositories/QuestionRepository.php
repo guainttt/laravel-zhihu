@@ -16,9 +16,9 @@ class QuestionRepository
      * 根据question的id查找topic 列表
      * @param $id
      */
-    public function byIdWithTopics($id)
+    public function byIdWithTopicsAndAnswers($id)
     {
-        $question = Question::where('id',$id)->with('topics')->first();
+        $question = Question::where('id',$id)->with('topics','answers')->first();
         return $question;
     }
     

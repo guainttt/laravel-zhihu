@@ -93,7 +93,7 @@
 <script>
     $(function () {
         //弹出欢迎对话框
-        $('#flash-overlay-modal').modal();
+      //  $('#flash-overlay-modal').modal();
     });
 </script>
 

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
+
+use Illuminate\Support\Str;
+
 class LoginController extends Controller
 {
     /*
@@ -27,7 +30,22 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-
+    //protected $redirectTo = '/';
+    
+    /**
+     * redirectTo 方法优先于 redirectTo 属性。
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    protected function redirectTo()
+    {
+        $value = session('redirectTo');
+        if ($value){
+            session(['redirectTo' => '']);
+            return $value;
+        }
+        return '/';
+    }
+    
     /**
      * Create a new controller instance.
      *
