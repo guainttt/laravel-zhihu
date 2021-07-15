@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Support\Facades\Mail;
 use Naux\Mail\SendCloudTemplate;
+use App\Follow;
 
 class User extends Authenticatable
 {
@@ -63,5 +64,29 @@ class User extends Authenticatable
     public function owns(Model $model)
     {
         return $this->id == $model->user_id;
+    }
+    
+
+    
+   /* public function follows($question)
+    {
+        return Follow::create([
+            'question_id'   =>$question,
+            'user_id'       =>$this->id
+        ]);
+    }*/
+   public function follows()
+   {
+       return $this->belongsToMany(Question::class,'user_question')
+         ->withTimestamps();
+   }
+   public function followThis($question)
+   {
+       return $this->follows()->toggle($question);
+   }
+    
+    public function followed($question)
+    {
+        return !! $this->follows()->where('question_id',$question)->count();
     }
 }

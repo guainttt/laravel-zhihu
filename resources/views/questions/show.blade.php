@@ -5,27 +5,53 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ $question->title }}</div>
-                    @foreach($question->topics as $topic)
-                        <span > <a class="topic" href="/topic/{{ $topic->id }}">{{$topic->name}}</a></span>
+                    <div class="card-header">
+                        {{ $question->title }}
+                        @foreach($question->topics as $topic)
+                            <span > <a class="topic" href="/topic/{{ $topic->id }}">{{$topic->name}}</a></span>
 
-                    @endforeach
+                        @endforeach
+                    </div>
+
                     <div class="card-body card-img">
                        {!! $question->body !!}
 
                     </div>
-                    <div class="action">
+                    <div class="action" >
                         @if(Auth::check() && Auth::user()->owns($question))
-                            <span class="edit" style="display: inline">
-                                <a href="/questions/{{$question->id}}/edit">编辑</a>
-                                
-                                <form action="/questions/{{$question->id}}" method="POST" class="delete-form">
-                                    {{method_field("DELETE")}}
-                                    {{csrf_field()}}
-                                    <button class="button is-naked delete-button">删除</button>
-                                </form>
-                            </span>
+                            <div >
+                                <span style="float: right;padding-right: 10px;">
+                                    <a href="/questions/{{$question->id}}/edit">编辑</a>
+                                </span>
+                                <span style="float: right;padding-right: 10px;">
+                                    <form action="/questions/{{$question->id}}" method="POST" class="delete-form">
+                                        {{method_field("DELETE")}}
+                                        {{csrf_field()}}
+                                        <button class="button is-naked delete-button">删除</button>
+                                    </form>
+                                </span>
+                            </div>
+
                         @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>{{ $question->followers_count }}</h2>
+                        <span>关注者</span>
+                    </div>
+                    <div class="card-body">
+
+                        <a href="/questions/{{$question->id}}/follow"
+                           class="btn  {{Auth::check() &&  Auth::user()->followed($question->id) ? 'btn-success':'btn-info' }}">
+                            {{Auth::check() && Auth::user()->followed($question->id) ?'已关注' :'关注该问题'     }}
+
+                        </a>
+                        <a href="#container" class="btn btn-primary">
+                            撰写答案
+                        </a>
                     </div>
                 </div>
             </div>
@@ -66,7 +92,6 @@
 
                                <label for="container"><h5>回答 </h5> </label>
                                <script id="container" name="body" type="text/plain" style = "height: 120px;">{!! old('body') !!}</script>
-
                                @if ($errors->any())
                                <div class="alert alert-danger">
                                <ul>
@@ -86,15 +111,16 @@
                         <a href="{{url('login')}}?redirectTo=/questions/{{$question->id}}"  class="btn btn-success btn-block">登录提交答案</a>
                         @endif
                     </div>
-
-
-
-
                </div>
-
             </div>
+            <div class="col-md-3">
+                                       
+            </div>
+
         </div>
     </div>
+
+
     
     @section('my-js')
     <!-- 实例化编辑器 -->
