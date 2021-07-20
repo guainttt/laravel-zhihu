@@ -44,11 +44,14 @@
                     </div>
                     <div class="card-body">
 
-                        <a href="/questions/{{$question->id}}/follow"
+                      {{--  <a href="/questions/{{$question->id}}/follow"
                            class="btn  {{Auth::check() &&  Auth::user()->followed($question->id) ? 'btn-success':'btn-info' }}">
                             {{Auth::check() && Auth::user()->followed($question->id) ?'已关注' :'关注该问题'     }}
+                        </a>--}}
+                        <question-follow-button question="{{$question->id}}" user="{{Auth::id()}}"></question-follow-button>
 
-                        </a>
+                        {{--<my-component></my-component>--}}
+
                         <a href="#container" class="btn btn-primary">
                             撰写答案
                         </a>
@@ -56,7 +59,6 @@
                 </div>
             </div>
 
-            @include('vendor.ueditor.assets')
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
@@ -121,8 +123,14 @@
     </div>
 
 
+
     
-    @section('my-js')
+
+                                   
+@endsection
+
+@include('vendor.ueditor.assets')
+@section('my-js')
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
         //编辑器
@@ -143,14 +151,5 @@
         });
 
     </script>
-    @endsection
-                                   
 @endsection
-<style>
-    .card-img p img {
-        max-width: 100%  !important;
-    }
-</style>
-
-
 

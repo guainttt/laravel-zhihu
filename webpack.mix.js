@@ -18,8 +18,7 @@ mix.js('resources/js/app.js', 'public/js')
        'resources/css/select2.css',
         'resources/css/style.css'], 'public/css/all.css')
 //3. 合并原生css文件
-
-   .extract(['jquery','vue','bootstrap','axios']);
+   .extract(['jquery','vue','bootstrap','axios']).version();
 //extract 把不经常修改的包隔离
 
 

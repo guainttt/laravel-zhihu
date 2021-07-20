@@ -48,11 +48,7 @@ class QuestionsController extends Controller
     public function create()
     {
         //
-    
         $oldTopicList = $this->questionRepository->getOldTopicList(old('topics'));
-        
-        
-        
         return view('questions.create',compact('oldTopicList'));
     }
 
@@ -117,7 +113,6 @@ class QuestionsController extends Controller
     public function edit($id)
     {
         $question = $this->questionRepository->byId($id);
-        
         if (Auth::user()->owns($question)){
             return view('questions.edit',compact('question'));
         }
@@ -142,7 +137,6 @@ class QuestionsController extends Controller
         //sync 同步
         $question->topics()->sync($topics);
         return redirect()->route('question.show',[$question->id]);
-        
     }
 
     /**
@@ -155,24 +149,17 @@ class QuestionsController extends Controller
     {
         \DB::beginTransaction();
         $question = $this->questionRepository->byId($id);
-        
-       
         if(Auth::user()->owns($question)){
-            $question = $this->questionRepository->byIdWithTopics($id);
-    
+            $question = $this->questionRepository->byIdWithTopicsAndAnswers($id);
             $rs1 = $question->delete();
-            
             $topicsIds = $question->topics->keyBy('id')->toArray();
             if ($topicsIds){
                 $rs2  = $topics =  $this->questionRepository->normalize2Topic($topicsIds);
             }else{
                 $rs2 = true;
             }
-    
-           
            if($rs1 && $rs2 ){
               \DB::commit();
-               
            } else{
                \DB::rollBack();
            }
@@ -183,7 +170,6 @@ class QuestionsController extends Controller
                 //移除问题的所有的标签
                 $question->topics()->detach();
             }
-           
            return redirect('/');
         }
         abort('403','你没有权限');

@@ -68,3 +68,7 @@ a.topic:hover {
 .notifications.unread {
     background: #fff9ea;
 }
+
+.card-img p img {
+    max-width: 100%  !important;
+}
