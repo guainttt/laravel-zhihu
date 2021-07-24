@@ -13,7 +13,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "QuestionFollowButton",
@@ -23,17 +22,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.post('/api/question/follower', { 'question': this.question, 'user': this.user }).then(function (res) {
             _this.followed = res.data.followed;
-            //console.log(res.data)
+            console.log(res.data);
+        }, function (error) {
+            //console.log(error);
+            //console.log(error.response.status)
+            if (error.response.status == 401) {
+                _this.auth = false;
+            }
         });
     },
     data: function data() {
         return {
-            followed: false
+            followed: false,
+            auth: true
         };
     },
 
     computed: {
         text: function text() {
+            if (!this.auth) {
+                return '登录后关注';
+            }
             return this.followed ? '已关注' : '关注该问题';
         }
     },
@@ -61,7 +70,7 @@ exports = module.exports = __webpack_require__("./node_modules/_css-loader@0.28.
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -17486,16 +17495,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "button",
-    {
-      staticClass: "btn  ",
-      class: { "btn-success": _vm.followed, "btn-info": !_vm.followed },
-      domProps: { textContent: _vm._s(_vm.text) },
-      on: { click: _vm.follow }
-    },
-    [_vm._v("\n      aaaaa\n")]
-  )
+  return _c("button", {
+    staticClass: "btn  ",
+    class: { "btn-success": _vm.followed, "btn-info": !_vm.followed },
+    domProps: { textContent: _vm._s(_vm.text) },
+    on: { click: _vm.follow }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17889,12 +17894,12 @@ window._ = __webpack_require__("./node_modules/_lodash@4.17.21@lodash/lodash.js"
  */
 
 try {
-  window.Popper = __webpack_require__("./node_modules/_popper.js@1.16.1@popper.js/dist/esm/popper.js").default;
-  window.$ = window.jQuery = __webpack_require__("./node_modules/_jquery@3.6.0@jquery/dist/jquery.js");
+    window.Popper = __webpack_require__("./node_modules/_popper.js@1.16.1@popper.js/dist/esm/popper.js").default;
+    window.$ = window.jQuery = __webpack_require__("./node_modules/_jquery@3.6.0@jquery/dist/jquery.js");
 
-  __webpack_require__("./node_modules/_bootstrap@4.6.0@bootstrap/dist/js/bootstrap.js");
+    __webpack_require__("./node_modules/_bootstrap@4.6.0@bootstrap/dist/js/bootstrap.js");
 
-  //require('./resources/js/select2.js');
+    //require('./resources/js/select2.js');
 } catch (e) {}
 
 /**
@@ -17916,9 +17921,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+var api_token = document.head.querySelector('meta[name="api-token"]');
+if (api_token) {
+    window.axios.defaults.headers.common['Authorization'] = api_token.content;
+} else {
+    console.error('Authorization token not found: https://learnku.com/docs/laravel/5.8/passport/3907');
 }
 
 /**

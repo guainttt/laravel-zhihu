@@ -14,16 +14,27 @@
            
             axios.post('/api/question/follower',{'question':this.question,'user':this.user}).then(res => {
                 this.followed = res.data.followed;
-                //console.log(res.data)
+                console.log(res.data)
+            },error => {
+                //console.log(error);
+                //console.log(error.response.status)
+                if(error.response.status==401){
+                    this.auth = false
+                }
+
             })
         },
         data(){
             return {
-                followed:false
+                followed:false ,
+                auth:true
             }
         },
         computed:{
             text(){
+                if (!this.auth){
+                   return '登录后关注'
+                } 
                 return this.followed ? '已关注':'关注该问题'
             }
         },
@@ -33,7 +44,7 @@
                 //alert('Hello')
                axios.post('/api/question/follow',{'question':this.question,'user':this.user}).then(res => {
                     this.followed = res.data.followed;
-                    //console.log(res.data)
+                    console.log(res.data)
                 })
             }
         }

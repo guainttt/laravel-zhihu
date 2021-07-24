@@ -23,25 +23,30 @@ Route::get('/topics',function (Request $request){
       ->get();
     return $topics;
 });
-
-Route::post('/question/follower',function (Request $request){
+Route::middleware('auth:api')->post('/question/follower',function (Request $request){
     //request('question')  或者这样获取
-    $followed = !! \App\Follow::where('question_id',$request->get('question'))
+    /*$followed = !! \App\Follow::where('question_id',$request->get('question'))
                             ->where('user_id',$request->get('user'))
-                            ->count();
+                            ->count();*/
+    
+    $user = Auth::guard('api')->user();
+    $followed = $user->followed($request->get('question'));
+    
     return response()->json(['followed'=>$followed]);
-})->middleware('api');
+});
 
 
 Route::post('/question/follow',function (Request $request){
-    //判断是否本人
-    //,,,
+    
+    
+    /*
     $followed =  \App\Follow::where('question_id',$request->get('question'))
       ->where('user_id',$request->get('user'))
       ->first();
-    
     if ($followed !== null){
         $rs = $followed->delete();
+        $question->decrement('followers_count');
+        
         if ($rs){
             return response()->json(['followed'=>false]);
         }else{
@@ -53,6 +58,17 @@ Route::post('/question/follow',function (Request $request){
       'user_id'    => $request->get('user')
     ];
     
-    \App\Follow::create($attributes);
+    \App\Follow::create($attributes);*/
+    
+    
+    $user = Auth::guard('api')->user();
+    $question = \App\Question::find($request->get('question'));
+    $followed = $user->followThis($question->id);
+    if (count($followed['detached'])>0){
+        $question->decrement('followers_count');
+        return response()->json(['followed'=>false]);
+    }
+    
+    $question->increment('followers_count');
     return response()->json(['followed'=>true]);
-})->middleware('api');
+})->middleware('auth:api');

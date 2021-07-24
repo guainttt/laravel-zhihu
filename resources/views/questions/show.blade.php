@@ -133,6 +133,7 @@
 @section('my-js')
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
+        @if(Auth::check())
         //编辑器
         var ue = UE.getEditor('container', {
             toolbars: [
@@ -149,7 +150,7 @@
         ue.ready(function() {
             ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
         });
-
+        @endif
     </script>
 @endsection
 

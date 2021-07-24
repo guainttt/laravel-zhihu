@@ -74,6 +74,8 @@ class RegisterController extends Controller
             //这里其实不需要再设置activation_token的值，也不需要再在验证后设置activated=1 采用Laravel提供的新功能验证用户邮箱即可 默认带一个email_verified_at字段，且更加完善具有过期时间戳和签名
           'activation_token' => str_random(40),//通过composer require laravel/helpers安装扩展包
           'password' => Hash::make($data['password']),
+           //添加token
+           'api_token'=>str_random(60)
         ]);
         $this->sendVerifyEmailTo($user);
         return $user;
