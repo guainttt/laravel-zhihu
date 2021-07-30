@@ -8,9 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Auth;
 
-
-
-class InvoicePaid extends Notification
+class NewUserFollowNotinfication extends Notification
 {
     use Queueable;
 
@@ -32,8 +30,8 @@ class InvoicePaid extends Notification
      */
     public function via($notifiable)
     {
-//        return ['mail'];   //邮件通知
-          return ['database']; //站内信
+        //        return ['mail'];   //邮件通知
+        return ['database']; //站内信
     }
     
     public function toDatabase($notifiable)
@@ -57,8 +55,6 @@ class InvoicePaid extends Notification
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }
-    
-   
 
     /**
      * Get the array representation of the notification.
@@ -71,6 +67,5 @@ class InvoicePaid extends Notification
         return [
             //
         ];
-        
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use App\Notifications\NewUserFollowNotinfication;
+
 class FollowersController extends Controller
 {
     //
@@ -44,6 +46,7 @@ class FollowersController extends Controller
         
         if (count($followed['attached']) > 0 ){
             $userToFollow->increment('followers_count');
+            $userToFollow->notify(new NewUserFollowNotinfication());
             return response()->json(['followed'=>true]);
         }
         $userToFollow->decrement('followers_count');
