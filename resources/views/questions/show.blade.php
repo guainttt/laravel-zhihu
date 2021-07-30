@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-8 col-md-offset-1">
                 <div class="card">
                     <div class="card-header">
                         {{ $question->title }}
@@ -57,7 +57,42 @@
                         </a>
                     </div>
                 </div>
+           
+                <div class="card">
+                    <div class="card-header follow">
+                        <h5>关注作者</h5>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img width="36px;" src="{{$question->user->avatar}}" alt="{{$question->user->name}}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a href="">{{$question->user->name}}</a>
+                            </h4>
+                        </div>
+                        <div>
+                            <span>问题</span>
+                            <span>{{$question->user->questions_count}}</span>
+                            <span>答案</span>
+                            <span>{{$question->user->answers_count}}</span>
+                            <span>评论</span>
+                            <span>{{$question->user->comments_count}}</span>
+                        </div>
+                        <!-- vue 组件 -->
+                        <user-follow-button user="{{$question->user_id}}"></user-follow-button>
+                        <!-- vue 组件 -->
+                        {{--<send-message user="{{$question->user_id}}"></send-message>--}}
+                    </div>
+                </div>
             </div>
+
+
 
             <div class="col-md-8">
                 <div class="card">
@@ -115,9 +150,11 @@
                     </div>
                </div>
             </div>
+
             <div class="col-md-3">
-                                       
             </div>
+
+
 
         </div>
     </div>

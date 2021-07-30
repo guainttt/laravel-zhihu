@@ -72,3 +72,12 @@ Route::post('/question/follow',function (Request $request){
     $question->increment('followers_count');
     return response()->json(['followed'=>true]);
 })->middleware('auth:api');
+
+
+
+// 用户关注用户接口
+Route::get('/user/followers/{user}','Api\FollowersController@index');
+
+Route::post('/user/follow','Api\FollowersController@follow');
+
+
