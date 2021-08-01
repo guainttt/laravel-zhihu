@@ -2,11 +2,19 @@
 
 namespace App\Notifications;
 
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Naux\Mail\SendCloudTemplate;
+use App\Channels\SendcloudChannel;
+
+
+
+
 
 class NewUserFollowNotinfication extends Notification
 {
@@ -31,7 +39,35 @@ class NewUserFollowNotinfication extends Notification
     public function via($notifiable)
     {
         //        return ['mail'];   //邮件通知
-        return ['database']; //站内信
+        return ['database',SendcloudChannel::class]; //站内信
+    }                      
+    
+    
+    
+    
+  
+    
+    public function toSendcloud($notifiable)
+    {
+        //模板地址
+        //https://www.sendcloud.net/email/#/sendAround/template
+        $data = [
+          'url' => url(config('app.url')),
+          'name' => Auth::guard('api')->user()->name
+        ];
+        
+        //test_template 邮件模板
+        $template = new SendCloudTemplate('zhihu_app_new_user_follow',$data);
+        Mail::raw($template,function ($message) use ($notifiable){
+            $message->from(env('SEND_CLOUD_FROM'),'知乎管理员');
+            $message->to($notifiable->email);
+        });
+    
+    
+    
+        
+        
+        
     }
     
     public function toDatabase($notifiable)
