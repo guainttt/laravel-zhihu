@@ -2,6 +2,7 @@
 
 namespace App;
 
+use app\Mailer\UserMailer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -50,7 +51,7 @@ class User extends Authenticatable
     {
         //模板地址
         //https://www.sendcloud.net/email/#/sendAround/template
-        $data = [
+        /*$data = [
           'url'=>route('password.reset',['token'=>$token])
         ];
         //test_template 邮件模板
@@ -58,7 +59,8 @@ class User extends Authenticatable
         Mail::raw($template,function ($message){
             $message->from(env('SEND_CLOUD_FROM'),'知乎管理员');
             $message->to($this->email);
-        });
+        });*/
+        (new UserMailer())->passwordReset($this->email,$token);
     }
     
     public function owns(Model $model)

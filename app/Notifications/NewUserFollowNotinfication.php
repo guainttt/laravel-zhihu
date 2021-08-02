@@ -3,14 +3,15 @@
 namespace App\Notifications;
 
 
+use app\Mailer\UserMailer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Naux\Mail\SendCloudTemplate;
+
 use App\Channels\SendcloudChannel;
+
 
 
 
@@ -51,7 +52,7 @@ class NewUserFollowNotinfication extends Notification
     {
         //模板地址
         //https://www.sendcloud.net/email/#/sendAround/template
-        $data = [
+        /*$data = [
           'url' => url(config('app.url')),
           'name' => Auth::guard('api')->user()->name
         ];
@@ -61,12 +62,8 @@ class NewUserFollowNotinfication extends Notification
         Mail::raw($template,function ($message) use ($notifiable){
             $message->from(env('SEND_CLOUD_FROM'),'知乎管理员');
             $message->to($notifiable->email);
-        });
-    
-    
-    
-        
-        
+        });*/
+        (new UserMailer())->sendTo($notifiable->email);
         
     }
     

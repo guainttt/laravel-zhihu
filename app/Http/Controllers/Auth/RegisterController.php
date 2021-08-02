@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use app\Mailer\UserMailer;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -86,7 +87,7 @@ class RegisterController extends Controller
     {
         //模板地址
         //https://www.sendcloud.net/email/#/sendAround/template
-        $data = [
+/*        $data = [
           'url'=>route('email.verify',['token'=>$user->activation_token])
           
         ];
@@ -95,7 +96,8 @@ class RegisterController extends Controller
         Mail::raw($template,function ($message) use ($user){
             $message->from(env('SEND_CLOUD_FROM'),'知乎管理员');
             $message->to($user->email);
-        });
+        });*/
+        (new UserMailer())->welcome( $user);
     }
     
 
