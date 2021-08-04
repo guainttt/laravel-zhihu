@@ -108,7 +108,11 @@
                                       <a href="">
                                          <img width="36" src="{{$answer->user->avatar}}" alt="{{ $answer->user->name }}">
                                       </a>
+                                      <span> 
+                                          <user-vote-button answer="{{$answer->id}}" count="{{$answer->votes_count}}"></user-vote-button>
+                                      </span>
                                   </div>
+
                                   <div class="media-body">
                                       <h4 class="media-heading">
                                           <a href="/user/{{$answer->user->name}}">

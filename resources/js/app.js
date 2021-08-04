@@ -27,6 +27,8 @@ window.Vue = require('vue');
 //注册组件
 Vue.component('question-follow-button', require('./components/QuestionFollowButton'));
 Vue.component('user-follow-button', require('./components/UserFollowButton'));
+Vue.component('user-vote-button', require('./components/UserVoteButton'));
+
 
 
 Vue.component('my-component',{

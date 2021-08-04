@@ -8,6 +8,11 @@ class  AnswerRepository
     {
         return Answer::create($attributes);
     }
+    
+    public function GetAnswerById($id)
+    {
+        return Answer::find($id);
+    }
 }
 
 

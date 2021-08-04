@@ -81,3 +81,8 @@ Route::get('/user/followers/{user}','Api\FollowersController@index');
 Route::post('/user/follow','Api\FollowersController@follow');
 
 
+// 点赞答案接口
+Route::post('/answer/{id}/votes/users','Api\VotesController@users');
+
+Route::post('/answer/vote','Api\VotesController@vote');
+
