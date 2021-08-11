@@ -87,7 +87,7 @@
                         <!-- vue 组件 -->
                         <user-follow-button user="{{$question->user_id}}"></user-follow-button>
                         <!-- vue 组件 -->
-                        {{--<send-message user="{{$question->user_id}}"></send-message>--}}
+                        <send-message user="{{$question->user_id}}"></send-message>
                     </div>
                 </div>
             </div>

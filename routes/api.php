@@ -86,3 +86,7 @@ Route::post('/answer/{id}/votes/users','Api\VotesController@users');
 
 Route::post('/answer/vote','Api\VotesController@vote');
 
+
+// 访客发送私信
+Route::post('/message/store','Server\MessagesController@store');
+
